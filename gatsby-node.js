@@ -4,58 +4,13 @@ const path = require(`path`)
 const createSitePages = require(`./gatsbyFunctions/createSitePages`)
 
 const createHomePage = async (actions, graphql) => {
-  // Variables
-  const { createPage } = actions
-  const GET_WORDPRESS_DATA = `
-  query {
-    wpgraphql {
-      home_contents {
-        edges {
-          node {
-            acf {
-              content
-              order
-              title
-              image {
-                sourceUrl
-                altText
-              }
-            }
-          }
-        }
-      }
-      header_contents {
-        edges {
-          node {
-            title
-            acf {
-              order
-            }
-          }
-        }
-      }
-    }
-  }
-`
-  // Creates 'database' in gatsby from the fetched WP data to run graphql queries
-  const { data } = await graphql(GET_WORDPRESS_DATA).then(results => {
-    // Check for errors and bubble up any errors
-    if (results.errors) {
-      console.log(results.errors) // Remove from prod
-      throw new Error(
-        `NEW ERROR WHILE: fetching wordpress content from wordpress in HOME_PAGE, (NEW_ERROR) => ${results.errors}`
-      )
-    }
-  })
   // Get path for homepage template
   const pageTemplate = path.resolve(`./src/templates/homePage.jsx`)
   // Use gatsby internal function to dynamically create pages
   createPage({
     path: `/Home`,
     component: pageTemplate,
-    context: {
-      data,
-    },
+    context: {    },
   })
 }
 
